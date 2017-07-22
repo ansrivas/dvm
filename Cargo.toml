@@ -1,0 +1,8 @@
+[package]
+name = "dvm"
+version = "0.1.0"
+authors = ["Ankur Srivastava <best.ankur@gmail.com>"]
+
+[dependencies]
+clap = "2.25.0"
+chrono = "0.4"
