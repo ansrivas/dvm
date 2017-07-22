@@ -3,7 +3,6 @@ use saver::ImageSaver;
 
 
 fn get_path_arg(help: &str) -> Arg {
-
     Arg::with_name("path")
         .short("p")
         .long("path")
@@ -22,12 +21,11 @@ fn get_volume_arg(help: &str) -> Arg {
         .required(true)
 }
 
-fn get_interactive_arg(help: &str) -> Arg {
-
+fn get_interactive_arg<'a, 'b>() -> Arg<'a, 'b> {
     Arg::with_name("interactive")
         .short("i")
         .long("interactive")
-        .help(help)
+        .help("Run the command interactively")
         .takes_value(true)
         .default_value("true")
         .possible_values(&["true", "false"])
@@ -43,7 +41,7 @@ pub fn run() {
     let path_save = get_path_arg("The path to save the docker volume as .tar.gz");
     let path_load = get_path_arg("The path to load the docker volume from");
 
-    let interactive = get_interactive_arg("Run the command interactively");
+    let interactive = get_interactive_arg();
 
     let app = App::new("dvm")
         .version("0.1.0")
