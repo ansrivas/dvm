@@ -37,7 +37,7 @@ impl ImageSaver {
 
     fn exported_file_name(&self) -> String {
         let exporting_time = Local::now().format("%Y-%m-%d_%H%M%S").to_string();
-        format!("{}_{}{}", self.volume_name, exporting_time, ".tar.gz")
+        format!("{}_{}{}", self.volume_name, exporting_time, ".tgz")
 
     }
 

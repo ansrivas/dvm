@@ -1,6 +1,6 @@
 use clap::{App, Arg, SubCommand};
 use saver::ImageSaver;
-
+use loader::ImageLoader;
 
 fn get_path_arg(help: &str) -> Arg {
     Arg::with_name("path")
@@ -69,7 +69,26 @@ pub fn run() {
         },
 
         ("load", Some(load_matches)) => {
-            //TODO: implement loading functionality
+            let volume = load_matches.value_of("volume")
+                                     .unwrap()
+                                     .parse::<String>()
+                                     .expect("Volume name should be a string.");
+
+            let path = load_matches.value_of("path")
+                                   .unwrap()
+                                   .parse::<String>()
+                                   .expect("Path should be a string.");
+
+            let is_interactive = load_matches.value_of("interactive")
+                                             .unwrap()
+                                             .parse::<bool>()
+                                             .unwrap();
+
+            let image_loader = ImageLoader::new(&volume, &path, is_interactive);
+
+            image_loader.load();
+            unimplemented!();
+
         },
 
         ("", None) => println!("{}", String::from_utf8(out).unwrap()),
