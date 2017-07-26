@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::path::Path;
 use std::ffi::OsStr;
+use utils::{confirm_user_input, docker_volume_exist};
 
 pub struct ImageLoader {
     volume_name: String,
@@ -21,6 +22,50 @@ impl ImageLoader {
     }
 
     pub fn load(&self) {
+
+        // Check if the intended docker volume is already present.
+        if docker_volume_exist(&self.volume_name) {
+            println!("Requested docker volume `{}` already exists.", volume);
+            if confirm_user_input() {
+                println!("Continuing with loading of image");
+            } else {
+                println!("Abort, current operation has been cancelled.");
+                return false;
+            }
+        }
+
+        let file_ext = match self.get_extension_from_filename() {
+            Some(ext) => ext,
+            None => {
+                println!("Unable to extract the file extension");
+                return;
+            },
+        };
+
+        if let Some(extract_command) = self.command_list.get(file_ext) {
+            let cmd = format!("docker run --rm --volume {}:/mybackup -v {}:/backup alpine sh -c \"cd /mybackup && {} /backup/{} --strip 1\"",
+            volume,
+            path,
+            extract_command
+            filename);
+
+            let vec = cmd.as_str().split(' ');
+            let splitted: Vec<&str> = vec.collect();
+
+
+            let status = Command::new(splitted[0])
+                .args(&splitted[1..])
+                .status()
+                .expect("Docker volume command failed to start");
+
+            status.success()
+
+        } else {
+            println!("Abort, current file extension is not supported.");
+            return false;
+        }
+
+
         unimplemented!();
     }
 
@@ -30,9 +75,9 @@ impl ImageLoader {
 
         let mut ext_cmd = HashMap::new();
 
-        ext_cmd.insert("rar", "unrar x");
         ext_cmd.insert("gz", "gunzip");
         ext_cmd.insert("zip", "unzip");
+        ext_cmd.insert("rar", "unrar x");
         ext_cmd.insert("tar", "tar xvf");
         ext_cmd.insert("tgz", "tar xvzf");
         ext_cmd.insert("tbz2", "tar xvjf");
@@ -62,10 +107,5 @@ mod tests {
         assert!(im_loader.get_extension_from_filename() == Some("gz".to_string()));
         im_loader = ImageLoader::new("test-vol", "../test-vol_2017-07-23_095003.gz", true);
         assert!(im_loader.get_extension_from_filename() == Some("gz".to_string()));
-
-        // im_loader = ImageLoader::new("test-vol", "./test-vol_2017-07-23_095003.tar.gz", true);
-        // assert_eq!(Path::new("./test-vol_2017-07-23_095003.tar.gz").extension(),
-        //            "");
-
     }
 }
