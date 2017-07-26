@@ -73,10 +73,13 @@ impl ImageSaver {
             }
         }
 
-        let cmd = format!("docker run --rm --volume {}:/mybackup -v {}:/backup alpine tar czvf /backup/{} /mybackup",
-                          volume,
-                          path,
-                          filename);
+        let cmd = format!(
+            "docker run --rm --volume {}:/mybackup -v {}:/backup \
+        alpine tar czvf /backup/{} /mybackup",
+            volume,
+            path,
+            filename
+        );
 
         let vec = cmd.as_str().split(' ');
         let splitted: Vec<&str> = vec.collect();

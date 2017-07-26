@@ -43,11 +43,14 @@ impl ImageLoader {
         };
 
         if let Some(extract_command) = self.command_list.get(file_ext) {
-            let cmd = format!("docker run --rm --volume {}:/mybackup -v {}:/backup alpine sh -c \"cd /mybackup && {} /backup/{} --strip 1\"",
+            let cmd =
+                format!("docker run --rm --volume {}:/mybackup -v {}:/backup alpine sh \
+            -c \"cd /mybackup && {} /backup/{} --strip 1\"",
             volume,
             path,
             extract_command
             filename);
+
 
             let vec = cmd.as_str().split(' ');
             let splitted: Vec<&str> = vec.collect();
