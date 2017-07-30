@@ -1,2 +1,2 @@
 # dvm
-Docker volume manager (WIP) in rust.
+Docker volume manager :construction: in rust.
