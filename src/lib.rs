@@ -1,5 +1,5 @@
-extern crate clap;
 extern crate chrono;
+extern crate clap;
 
 pub use manager::*;
 pub use saver::ImageSaver;

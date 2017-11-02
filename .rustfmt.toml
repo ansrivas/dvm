@@ -1,9 +1,9 @@
 verbose = false
 disable_all_formatting = false
 skip_children = false
-max_width = 119
+max_width = 140
 error_on_line_overflow = true
-tab_spaces = 4
+tab_spaces = 2
 fn_call_width = 60
 struct_lit_width = 18
 struct_variant_width = 35
