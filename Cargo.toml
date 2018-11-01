@@ -4,5 +4,5 @@ version = "0.1.0"
 authors = ["Ankur Srivastava <best.ankur@gmail.com>"]
 
 [dependencies]
-clap = "2.25.0"
+clap = "2.32.0"
 chrono = "0.4"
