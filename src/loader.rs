@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::path::Path;
 use std::process::Command;
-use utils::{confirm_user_input, docker_volume_exist};
+use crate::utils::{confirm_user_input, docker_volume_exist};
 
 pub struct ImageLoader {
   volume_name: String,

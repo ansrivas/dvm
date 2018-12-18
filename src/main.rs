@@ -20,16 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-extern crate chrono;
-extern crate clap;
 
-pub use loader::ImageLoader;
-pub use saver::ImageSaver;
+
 mod loader;
-mod manager;
 mod saver;
 mod utils;
-use manager::run;
+mod manager;
+
+use crate::loader::ImageLoader;
+use crate::saver::ImageSaver;
+use crate::manager::run;
 
 fn main() {
     run();

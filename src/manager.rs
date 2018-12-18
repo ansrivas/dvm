@@ -21,8 +21,8 @@
 // SOFTWARE.
 
 use clap::{App, Arg, SubCommand};
-use loader::ImageLoader;
-use saver::ImageSaver;
+use crate::loader::ImageLoader;
+use crate::saver::ImageSaver;
 
 fn get_path_arg(help: &str) -> Arg {
     Arg::with_name("path")

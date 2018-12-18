@@ -24,7 +24,7 @@ use chrono::prelude::*;
 use clap::ArgMatches;
 use std::path::PathBuf;
 use std::process::Command;
-use utils::{confirm_user_input, docker_volume_exist};
+use crate::utils::{confirm_user_input, docker_volume_exist};
 
 pub struct ImageSaver {
   volume_name: String,
