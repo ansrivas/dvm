@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-use clap::{App, Arg, SubCommand};
 use crate::loader::ImageLoader;
 use crate::saver::ImageSaver;
+use clap::{App, Arg, SubCommand};
 
 fn get_path_arg(help: &str) -> Arg {
     Arg::with_name("path")
@@ -72,7 +72,8 @@ pub fn run() {
                 .arg(volume_save)
                 .arg(path_save)
                 .arg(&interactive),
-        ).subcommand(
+        )
+        .subcommand(
             SubCommand::with_name("load")
                 .about("Load the locally saved volume to named docker-volume.")
                 .arg(volume_load)
