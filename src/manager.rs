@@ -24,6 +24,12 @@ use crate::loader::ImageLoader;
 use crate::saver::ImageSaver;
 use clap::{App, Arg, SubCommand};
 
+/// Insert a new customer in database.
+///
+/// # Arguments
+///
+/// * `Arg1` -
+///
 fn get_path_arg(help: &str) -> Arg {
     Arg::with_name("path")
         .short("p")
@@ -54,6 +60,12 @@ fn get_interactive_arg<'a, 'b>() -> Arg<'a, 'b> {
         .required(true)
 }
 
+/// Insert a new customer in database.
+///
+/// # Arguments
+///
+/// * `Arg1` -
+///
 pub fn run() {
     let volume_save = get_volume_arg("The named volume to save locally.");
     let volume_load = get_volume_arg("The target name of volume where the zip is to be uploaded.");

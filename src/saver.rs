@@ -26,6 +26,12 @@ use clap::ArgMatches;
 use std::path::PathBuf;
 use std::process::Command;
 
+/// Insert a new customer in database.
+///
+/// # Arguments
+///
+/// * `Arg1` -
+///
 pub struct ImageSaver {
     volume_name: String,
     path_to_export_vol: String,

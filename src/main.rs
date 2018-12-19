@@ -20,14 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-mod loader;
-mod manager;
-mod saver;
-mod utils;
+pub mod loader;
+pub mod manager;
+pub mod saver;
+pub mod utils;
 
-use crate::loader::ImageLoader;
 use crate::manager::run;
-use crate::saver::ImageSaver;
 
 fn main() {
     run();
