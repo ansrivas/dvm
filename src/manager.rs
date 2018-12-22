@@ -76,7 +76,7 @@ pub fn run() {
     let interactive = get_interactive_arg();
 
     let app = App::new("dvm")
-        .version("0.1.0")
+        .version(crate_version!())
         .about("Showcase different options to backup and load docker volumes")
         .subcommand(
             SubCommand::with_name("save")

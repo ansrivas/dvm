@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-use crate::utils::{confirm_user_input, docker_volume_exist};
+use crate::utils::{confirm_user_input, docker_volume_exist, execute_command};
 use std::collections::HashMap;
 use std::ffi::OsStr;
 use std::path::Path;
@@ -78,22 +78,25 @@ impl ImageLoader {
                  -c \"cd /mybackup && {} /backup/{} --strip 1\"",
                 self.volume_name, self.image_path, extract_command, parent_path
             );
-
-            let vec = cmd.as_str().split(' ');
-            let splitted: Vec<&str> = vec.collect();
-
-            let status = Command::new(splitted[0])
-                .args(&splitted[1..])
-                .status()
-                .expect("Docker volume command failed to start");
-
-            return status.success();
+            return execute_command(&cmd);
         } else {
             println!("Abort, current file extension is not supported.");
             return false;
         }
     }
 
+    /// Insert a new customer in database.
+    ///
+    /// # Arguments
+    ///
+    /// * `Arg1` -
+    ///
+    /// # Examples
+    /// Basic usage:
+    ///
+    /// ```rust norun
+    ///    Your example here
+    /// ```
     fn extension_vs_commands() -> HashMap<&'static str, &'static str> {
         let mut ext_cmd = HashMap::new();
 
@@ -130,7 +133,6 @@ impl ImageLoader {
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[test]
     fn test_name() {
         // let mut im_loader = ImageLoader::new("test-vol", "./test-vol_2017-07-23_095003.tar.gz", true);

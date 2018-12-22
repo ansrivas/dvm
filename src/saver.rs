@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-use crate::utils::{confirm_user_input, docker_volume_exist};
+use crate::utils::{confirm_user_input, docker_volume_exist, execute_command};
 use chrono::prelude::*;
 use clap::ArgMatches;
 use std::path::PathBuf;
-use std::process::Command;
 
 /// Insert a new customer in database.
 ///
@@ -111,14 +110,6 @@ impl ImageSaver {
             self.volume_name, path, filename
         );
 
-        let vec = cmd.as_str().split(' ');
-        let splitted: Vec<&str> = vec.collect();
-
-        let status = Command::new(splitted[0])
-            .args(&splitted[1..])
-            .status()
-            .unwrap();
-
-        status.success()
+        return execute_command(&cmd);
     }
 }

@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-use std::io;
-use std::process::Command;
+use std::io::{self, Result};
+use std::process::{Command, ExitStatus};
 
 /// Get a boolean user input for current operation
 pub fn confirm_user_input() -> bool {
@@ -49,6 +49,31 @@ pub fn docker_volume_exist(volume: &str) -> bool {
         .arg(volume)
         .status()
         .expect("docker volume command failed to start");
+
+    status.success()
+}
+
+/// Execute a given command in shell format
+///
+/// # Arguments
+///
+/// * `cmd` - Command which needs to be executed.
+///
+/// # Returns a boolean type and in case it is not able to execute the command it panics
+/// # Examples
+/// Basic usage:
+///
+/// ```rust norun
+///    Your example here
+/// ```
+pub fn execute_command(cmd: &str) -> bool {
+    let vec = cmd.split(' ');
+    let splitted: Vec<&str> = vec.collect();
+
+    let status = Command::new(splitted[0])
+        .args(&splitted[1..])
+        .status()
+        .expect(&format!("Failed to execute {}", cmd));
 
     status.success()
 }

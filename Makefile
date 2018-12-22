@@ -8,7 +8,13 @@ PROJECT_NAME=$(shell echo $(PROJECT_BASE) | sed  's/-/_/g')
 
 .PHONY : test
 test:             ## Run all the tests
-	cargo test --all -- --nocapture
+ifdef IS_SCCACHE
+	@echo "************** SCCACHE is present in the path. Will use cached binaries for compilation. **********"
+	@RUSTC_WRAPPER=$(HOME)/.cargo/bin/sccache cargo test --all -- --nocapture
+else
+	@echo "************** SCCACHE is not found in the path. Will use standard cargo-compilation **********"
+	@cargo test --all -- --nocapture
+endif
 
 .PHONY : test_cover
 
@@ -24,11 +30,23 @@ lint:             ## Run clippy as linter
 
 .PHONY : build_release
 build_release:  ## Create a release build out of this project
+ifdef IS_SCCACHE
+	@echo "************** SCCACHE is present in the path. Will use cached binaries for compilation. **********"
+	@RUSTC_WRAPPER=$(HOME)/.cargo/bin/sccache cargo build --release
+else
+	@echo "************** SCCACHE is not found in the path. Will use standard cargo-compilation **********"
 	@cargo build --release
+endif
 
 .PHONY : build
 build:  ## Create a build out of this project
+ifdef IS_SCCACHE
+	@echo "************** SCCACHE is present in the path. Will use cached binaries for compilation. **********"
+	@RUSTC_WRAPPER=$(HOME)/.cargo/bin/sccache cargo build
+else
+	@echo "************** SCCACHE is not found in the path. Will use standard cargo-compilation **********"
 	@cargo build
+endif
 
 .PHONY : clean
 clean:         ## Clean the application
@@ -36,7 +54,13 @@ clean:         ## Clean the application
 
 .PHONY: build_no_debug_sym
 build_no_debug_sym: clean test ## Create a release build but without debug symbols = smaller size of binary.
+ifdef IS_SCCACHE
+	@echo "************** SCCACHE is present in the path. Will use cached binaries for compilation. **********"
+	@RUSTC_WRAPPER=$(HOME)/.cargo/bin/sccache RUSTFLAGS='-C link-args=-s' cargo build --release
+else
+	@echo "************** SCCACHE is not found in the path. Will use standard cargo-compilation **********"
 	@RUSTFLAGS='-C link-args=-s' cargo build --release
+endif
 
 .PHONY: docs
 docs:  ## Generate the docs for this project. Docs are located in target/doc/{{app_with_under_score}}
